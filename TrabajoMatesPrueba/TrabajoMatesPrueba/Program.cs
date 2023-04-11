@@ -74,6 +74,10 @@ namespace TrabajoMatesPrueba
             return valor;
         }
 
+        /// <summary>
+        /// Metodo que utilizamos para poder llenar un vector
+        /// </summary>
+        /// <param name="vs"></param>
         private void RellenarVector(ref int[] vs)
         {
             Console.WriteLine("Dame los valores del vector");
@@ -84,6 +88,11 @@ namespace TrabajoMatesPrueba
             }
         }
 
+        /// <summary>
+        /// Metodo que calcula el producto escalar entre dos vectores
+        /// </summary>
+        /// <param name="vs1"></param>
+        /// <param name="vs2"></param>
         private void ProductoEscalar(int[] vs1, int[] vs2)
         {
             if (vs1.Length == vs2.Length)
@@ -101,32 +110,52 @@ namespace TrabajoMatesPrueba
             }
         }
 
+        /// <summary>
+        /// Metodo que calcula el producto mixto entre tres vectores
+        /// </summary>
+        /// <param name="vs1"></param>
+        /// <param name="vs2"></param>
+        /// <param name="vs3"></param>
         private void ProductoMixto(int[] vs1, int[] vs2, int[] vs3)
         {
-            if (vs1.Length == vs2.Length && vs1.Length == vs3.Length)
+            if (vs1.Length == vs2.Length && vs1.Length == vs3.Length && vs1.Length==3)
             {
                 int resultado = vs1[0] * vs2[1] * vs3[2] + vs1 [2] * vs2[0] * vs3[1]
                        + vs1[1] * vs2[2] * vs3[0] - vs1[2] * vs2[1] * vs3[0]
                        - vs1[0] * vs2[2] * vs3[1] - vs1[1] * vs2[0] * vs3[2];
+                Console.WriteLine("El producto mixto de los vectores es:" + resultado);
+            }
+            else
+            {
+                Console.WriteLine("Los vectores no son compatibles");
             }
         }
 
-        void Main(string[] args)
+        /// <summary>
+        /// Metodo que pide el numero de la opcion del menu
+        /// </summary>
+        /// <returns></returns>
+        private int EscogerNumeroMenu()
+        {
+            int opcion;
+            Console.WriteLine("Dime la opcion que deseas realizar");
+            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 3)
+            {
+                Console.WriteLine("Error, debe introducir una opcion valida");
+            }
+            return opcion;
+        }
+
+        private void Menu()
         {
             int[,] matriz = new int[3, 3];
             int[] Vector1 = new int[3];
             int[] Vector2 = new int[3];
             int[] Vector3 = new int[3];
 
-            int opcion = 0;
-            int valor;
-            int resultado;
-            int x1, x2, x3, y1, y2, y3, z1, z2, z3;
-            Console.WriteLine("Dime la opcion que deseas realizar");
-            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 3)
-            {
-                Console.WriteLine("Error, debe introducir una opcion valida");
-            }
+            int opcion = EscogerNumeroMenu();
+
+
             #region Determinante de una matriz 3x3
             if (opcion == 1)
             {
@@ -162,11 +191,15 @@ namespace TrabajoMatesPrueba
                 Console.WriteLine("Vector 3");
                 RellenarVector(ref Vector3);
 
-                
-                resultado = x1 * y2 * z3 + y1 * z2 * x3 + z1 * x2 * y3 - x3 * y2 * z1 - y3 * z2 * x1 - z3 * x2 * y1;
-                Console.WriteLine("El producto mixto de estos 3 vectores es: " + resultado);
+                ProductoMixto(Vector1, Vector2, Vector3);
             }
             #endregion
+        }
+
+        static void Main(string[] args)
+        {
+            Program pr = new Program();
+            pr.Menu();
         }
     }
 }
