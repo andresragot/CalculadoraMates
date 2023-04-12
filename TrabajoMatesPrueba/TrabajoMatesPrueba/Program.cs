@@ -139,11 +139,20 @@ namespace TrabajoMatesPrueba
         {
             int opcion;
             Console.WriteLine("Dime la opcion que deseas realizar");
-            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 3)
+            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 5)
             {
                 Console.WriteLine("Error, debe introducir una opcion valida");
             }
             return opcion;
+        }
+
+        private void ImprimirMenu()
+        {
+            Console.WriteLine("1- Determinante de una matriz 3x3");
+            Console.WriteLine("2- Producto escalar");
+            Console.WriteLine("3- Producto mixto");
+            Console.WriteLine("4- Cuarta opcion");
+            Console.WriteLine("5- Salir");
         }
 
         private void Menu()
@@ -153,47 +162,62 @@ namespace TrabajoMatesPrueba
             int[] Vector2 = new int[3];
             int[] Vector3 = new int[3];
 
-            int opcion = EscogerNumeroMenu();
 
-
-            #region Determinante de una matriz 3x3
-            if (opcion == 1)
+                ImprimirMenu();
+                int opcion = EscogerNumeroMenu();
+            do
             {
-                RellenarMatriz(ref matriz);
-                Console.WriteLine("Esta es la matriz resultante");
-                MostrarMatriz(matriz);
-                Determinante3x3(matriz);
-            }
-            #endregion
+                switch (opcion)
+                {
+                    #region Determinante de una Matriz
+                    case 1:
+                        RellenarMatriz(ref matriz);
+                        Console.WriteLine("Esta es la matriz resultante");
+                        MostrarMatriz(matriz);
+                        Determinante3x3(matriz);
+                        break;
+                    #endregion
+                    #region Producto escalar
+                    case 2:
+                        Console.WriteLine("Vector 1");
+                        RellenarVector(ref Vector1);
 
-            #region Producto Escalar
-            else if (opcion == 2)
-            {
-                Console.WriteLine("Vector 1");
-                RellenarVector(ref Vector1);
+                        Console.WriteLine("Vector2");
+                        RellenarVector(ref Vector2);
 
-                Console.WriteLine("Vector2");
-                RellenarVector(ref Vector2);
+                        ProductoEscalar(Vector1, Vector2);
+                        break;
+                    #endregion
+                    #region Producto mixto
+                    case 3:
+                        Console.WriteLine("Vector 1");
+                        RellenarVector(ref Vector1);
 
-                ProductoEscalar(Vector1, Vector2);
-            }
-            #endregion
+                        Console.WriteLine("Vector 2");
+                        RellenarVector(ref Vector2);
 
-            #region Producto Mixto
-            else if (opcion == 3)
-            {
-                Console.WriteLine("Vector 1");
-                RellenarVector(ref Vector1);
+                        Console.WriteLine("Vector 3");
+                        RellenarVector(ref Vector3);
 
-                Console.WriteLine("Vector 2");
-                RellenarVector(ref Vector2);
+                        ProductoMixto(Vector1, Vector2, Vector3);
+                        break;
+                    #endregion
+                    #region 
+                    case 4:
 
-                Console.WriteLine("Vector 3");
-                RellenarVector(ref Vector3);
-
-                ProductoMixto(Vector1, Vector2, Vector3);
-            }
-            #endregion
+                        break;
+                    #endregion
+                    case 5:
+                        break;
+                }
+                if(opcion != 5)
+                {
+                    Console.ReadKey();
+                    Console.Clear();
+                    ImprimirMenu();
+                    opcion = EscogerNumeroMenu();
+                }
+            } while (opcion < 5);
         }
 
         static void Main(string[] args)
