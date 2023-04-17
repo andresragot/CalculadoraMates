@@ -131,6 +131,43 @@ namespace TrabajoMatesPrueba
             }
         }
 
+        private double[] ProductoVectorial(int[] vs1, int[] vs2)
+        {
+            double[] producto = new double[3];
+            producto[0] = vs1[1] * vs2[2] - vs1[2] * vs2[1];
+            producto[1] = vs1[2] * vs2[0] - vs1[0] * vs2[2];
+            producto[2] = vs1[0] * vs2[1] - vs1[1] * vs2[0];
+
+            Console.WriteLine("El producto vectorial es: " + producto[0]);
+            Console.WriteLine("El producto vectorial es: " + producto[1]);
+            Console.WriteLine("El producto vectorial es: " + producto[2]);
+            return producto;
+        }
+        private double ProductoVectorialcuadrado(int[] vs1)
+        {
+            double resultado;
+            resultado = (vs1[0] * vs1[0]) + (vs1[1] * vs1[1]) + (vs1[2] * vs1[2]);
+            return resultado;
+        }
+
+
+        private void DistanciaPuntoRecta(int[] vs1, int[] vs2, int[] vs3)
+        {
+            double resultado;
+            int[] vector = new int[3];
+            vector[0] = vs1[0] - vs2[0];
+            vector[1] = vs1[1] - vs2[1];
+            vector[2] = vs1[2] - vs2[2];
+            ProductoVectorial(vector, vs3); //No me sale el como llamar a la funcion para que me de el resultado sino lo veo uno de estos dias
+            
+        }
+
+        private void DistanciaPuntoPlano(int[] vs1, int[] vs4)
+        {
+            double resultado = Math.Abs((vs1[0] * vs4[0]) + (vs1[1] * vs4[1]) + (vs1[2] * vs4[2]) + vs4[3]) / Math.Sqrt((vs4[0] * vs4[0]) + (vs4[1] * vs4[1]) + (vs4[2] * vs4[2]));
+            Console.WriteLine("La distancia del punto al plano es : " + resultado);
+        }
+
         /// <summary>
         /// Metodo que pide el numero de la opcion del menu
         /// </summary>
@@ -139,7 +176,7 @@ namespace TrabajoMatesPrueba
         {
             int opcion;
             Console.WriteLine("Dime la opcion que deseas realizar");
-            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 5)
+            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 6)
             {
                 Console.WriteLine("Error, debe introducir una opcion valida");
             }
@@ -151,8 +188,10 @@ namespace TrabajoMatesPrueba
             Console.WriteLine("1- Determinante de una matriz 3x3");
             Console.WriteLine("2- Producto escalar");
             Console.WriteLine("3- Producto mixto");
-            Console.WriteLine("4- Cuarta opcion");
-            Console.WriteLine("5- Salir");
+            Console.WriteLine("4- Producto vectorial");
+            Console.WriteLine("5- Distancia Punto-Recta 3D");
+            Console.WriteLine("6- Distancia Punto-Plano 3D");
+            Console.WriteLine("7- Salir");
         }
 
         private void Menu()
@@ -161,6 +200,7 @@ namespace TrabajoMatesPrueba
             int[] Vector1 = new int[3];
             int[] Vector2 = new int[3];
             int[] Vector3 = new int[3];
+            int[] Vector4 = new int[4];
 
 
                 ImprimirMenu();
@@ -204,20 +244,48 @@ namespace TrabajoMatesPrueba
                     #endregion
                     #region 
                     case 4:
+                        Console.WriteLine("Vector 1");
+                        RellenarVector(ref Vector1);
 
+                        Console.WriteLine("Vector 2");
+                        RellenarVector(ref Vector2);
+
+                        ProductoVectorial(Vector1, Vector2);
                         break;
                     #endregion
                     case 5:
+                        Console.WriteLine("Punto 1");
+                        RellenarVector(ref Vector1);
+
+                        Console.WriteLine("Punto 2");
+                        RellenarVector(ref Vector2);
+
+                        Console.WriteLine("Vector director de la recta");
+                        RellenarVector(ref Vector3);
+
+
+                        DistanciaPuntoRecta(Vector1, Vector2, Vector3);
+                        break;
+
+                    case 6:
+                        Console.WriteLine("Coordenadas del punto");
+                        RellenarVector(ref Vector1);
+
+                        Console.WriteLine("Coordenadas x,y,z y el termino independiente");
+                        RellenarVector(ref Vector4);
+
+
+                        DistanciaPuntoPlano(Vector1, Vector4);
                         break;
                 }
-                if(opcion != 5)
+                if(opcion != 6)
                 {
                     Console.ReadKey();
                     Console.Clear();
                     ImprimirMenu();
                     opcion = EscogerNumeroMenu();
                 }
-            } while (opcion < 5);
+            } while (opcion < 7);
         }
 
         static void Main(string[] args)
