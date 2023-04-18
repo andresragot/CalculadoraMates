@@ -158,8 +158,10 @@ namespace TrabajoMatesPrueba
             vector[0] = vs1[0] - vs2[0];
             vector[1] = vs1[1] - vs2[1];
             vector[2] = vs1[2] - vs2[2];
-            ProductoVectorial(vector, vs3); //No me sale el como llamar a la funcion para que me de el resultado sino lo veo uno de estos dias
-            
+            double[] vectorial = ProductoVectorial(vector, vs3); 
+            resultado = Math.Sqrt((vectorial[0] * vectorial[0]) + (vectorial[1] * vectorial[1]) + (vectorial[2] * vectorial[2])) / Math.Sqrt((vs3[0] * vs3[0]) + (vs3[1] * vs3[1]) + (vs3[2] * vs3[2]));
+            Console.WriteLine("La distancia del punto a la recta es : " + resultado);
+
         }
 
         private void DistanciaPuntoPlano(int[] vs1, int[] vs4)
