@@ -143,12 +143,6 @@ namespace TrabajoMatesPrueba
             Console.WriteLine("El producto vectorial es: " + producto[2]);
             return producto;
         }
-        private double ProductoVectorialcuadrado(int[] vs1)
-        {
-            double resultado;
-            resultado = (vs1[0] * vs1[0]) + (vs1[1] * vs1[1]) + (vs1[2] * vs1[2]);
-            return resultado;
-        }
 
 
         private void DistanciaPuntoRecta(int[] vs1, int[] vs2, int[] vs3)
