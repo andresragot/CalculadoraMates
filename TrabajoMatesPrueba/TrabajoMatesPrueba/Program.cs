@@ -45,7 +45,7 @@ namespace TrabajoMatesPrueba
         /// verifica que la matriz pasada sea de 3x3 sino no ejecuta el programa
         /// </summary>
         /// <param name="vs"></param>
-        private void Determinante3x3(int[,] vs)
+        private int Determinante3x3(int[,] vs)
         {
             if(vs.GetLength(0) == 3 && vs.GetLength(1) == 3)
             {
@@ -53,10 +53,12 @@ namespace TrabajoMatesPrueba
                         + vs[0, 2] * vs[1, 0] * vs[2, 1] - vs[2, 0] * vs[1, 1] * vs[0, 2]
                         - vs[2, 1] * vs[1, 2] * vs[0, 0] - vs[2, 2] * vs[1, 0] * vs[0, 1];
                 Console.WriteLine("El determinante de la matriz es: " + resultado);
+                return resultado;
             }
             else
             {
                 Console.WriteLine("La matriz dada no es de 3 x 3");
+                return 0;
             }
         }
         
@@ -131,6 +133,12 @@ namespace TrabajoMatesPrueba
             }
         }
 
+        /// <summary>
+        /// Metodo que calcula el producto vectorial entre dos vectores
+        /// </summary>
+        /// <param name="vs1"></param>
+        /// <param name="vs2"></param>
+        /// <returns></returns>
         private double[] ProductoVectorial(int[] vs1, int[] vs2)
         {
             double[] producto = new double[3];
@@ -144,7 +152,12 @@ namespace TrabajoMatesPrueba
             return producto;
         }
 
-
+        /// <summary>
+        /// Metodo que calcula la distancia entre un punto y una recta
+        /// </summary>
+        /// <param name="vs1"></param>
+        /// <param name="vs2"></param>
+        /// <param name="vs3"></param>
         private void DistanciaPuntoRecta(int[] vs1, int[] vs2, int[] vs3)
         {
             double resultado;
@@ -158,10 +171,52 @@ namespace TrabajoMatesPrueba
 
         }
 
+        /// <summary>
+        /// Metodo que calcula la distancia entre un punto y una recta
+        /// </summary>
+        /// <param name="vs1"></param>
+        /// <param name="vs4"></param>
         private void DistanciaPuntoPlano(int[] vs1, int[] vs4)
         {
             double resultado = Math.Abs((vs1[0] * vs4[0]) + (vs1[1] * vs4[1]) + (vs1[2] * vs4[2]) + vs4[3]) / Math.Sqrt((vs4[0] * vs4[0]) + (vs4[1] * vs4[1]) + (vs4[2] * vs4[2]));
             Console.WriteLine("La distancia del punto al plano es : " + resultado);
+        }
+
+        /// <summary>
+        /// metodo que rellena una matriz de 3x3 utilizando 3 vectores.
+        /// </summary>
+        /// <param name="vs1"></param>
+        /// <param name="vs2"></param>
+        /// <param name="vs3"></param>
+        /// <param name="matriz"></param>
+        private void RellenarMatriz(int[] vs1, int[] vs2, int[] vs3, ref int[,] matriz)
+        {
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                matriz[0, i] = vs1[i];
+            }
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                matriz[1, i] = vs2[i];
+            }
+            for (int i = 0; i < matriz.GetLength(0); i++)
+            {
+                matriz[2, i] = vs3[i];
+            }
+        }
+
+        private void DistanciaRectaPlano(int[] vs1, int[] vs2, int[] vs3, ref int[,] matriz)
+        {
+            RellenarMatriz(vs1, vs2, vs3, ref matriz);
+
+            int det = Determinante3x3(matriz);
+
+            if (det == 0)
+            {
+
+            }
+
+
         }
 
         /// <summary>
@@ -172,24 +227,33 @@ namespace TrabajoMatesPrueba
         {
             int opcion;
             Console.WriteLine("Dime la opcion que deseas realizar");
-            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 6)
+            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 7)
             {
                 Console.WriteLine("Error, debe introducir una opcion valida");
             }
             return opcion;
         }
 
+        /// <summary>
+        /// Metodo que imprime el menu
+        /// </summary>
         private void ImprimirMenu()
         {
-            Console.WriteLine("1- Determinante de una matriz 3x3");
-            Console.WriteLine("2- Producto escalar");
-            Console.WriteLine("3- Producto mixto");
-            Console.WriteLine("4- Producto vectorial");
-            Console.WriteLine("5- Distancia Punto-Recta 3D");
-            Console.WriteLine("6- Distancia Punto-Plano 3D");
-            Console.WriteLine("7- Salir");
+            Console.WriteLine("1 - Determinante de una matriz 3x3");
+            Console.WriteLine("2 - Producto escalar");
+            Console.WriteLine("3 - Producto mixto");
+            Console.WriteLine("4 - Producto vectorial");
+            Console.WriteLine("5 - Distancia Punto-Recta 3D");
+            Console.WriteLine("6 - Distancia Punto-Plano 3D");
+            Console.WriteLine("7 - Distancia Recta y Plano");
+            Console.WriteLine("8 - Salir");
         }
 
+
+
+        /// <summary>
+        /// Metodo que gestiona lo que se hace una vez escogemos una opcion del menu
+        /// </summary>
         private void Menu()
         {
             int[,] matriz = new int[3, 3];
@@ -197,6 +261,8 @@ namespace TrabajoMatesPrueba
             int[] Vector2 = new int[3];
             int[] Vector3 = new int[3];
             int[] Vector4 = new int[4];
+            int[] Vector5 = new int[4];
+            int[] Vector6 = new int[4];
 
 
                 ImprimirMenu();
@@ -272,6 +338,19 @@ namespace TrabajoMatesPrueba
 
 
                         DistanciaPuntoPlano(Vector1, Vector4);
+                        break;
+
+                    case 7:
+                        Console.WriteLine("Primera parte de la ecuacion general de la recta");
+                        RellenarVector(ref Vector4);
+                        Console.WriteLine("Segunda parte de la ecuacion general de la recta ");
+                        RellenarVector(ref Vector5);
+
+                        Console.WriteLine("Coordenadas x,y,z y el termino independiente del plano");
+                        RellenarVector(ref Vector6);
+
+
+
                         break;
                 }
                 if(opcion != 6)
