@@ -166,8 +166,18 @@ namespace TrabajoMatesPrueba
             vector[1] = vs1[1] - vs2[1];
             vector[2] = vs1[2] - vs2[2];
             double[] vectorial = ProductoVectorial(vector, vs3); 
-            resultado = Math.Sqrt((vectorial[0] * vectorial[0]) + (vectorial[1] * vectorial[1]) + (vectorial[2] * vectorial[2])) / Math.Sqrt((vs3[0] * vs3[0]) + (vs3[1] * vs3[1]) + (vs3[2] * vs3[2]));
-            Console.WriteLine("La distancia del punto a la recta es : " + resultado);
+
+            double denominador = Math.Sqrt(MathF.Pow(vs3[0], 2) + MathF.Pow(vs3[1], 2) + MathF.Pow(vs3[2], 2));
+
+            //verificacion para no dividir entre 0
+            if(denominador==0)
+                Console.WriteLine("La distancia entre el punto y la recta es infinito");
+            else
+            {
+                resultado = Math.Sqrt((vectorial[0] * vectorial[0]) + (vectorial[1] * vectorial[1]) + (vectorial[2] * vectorial[2])) / denominador;
+                Console.WriteLine("La distancia del punto a la recta es : " + resultado);
+            }
+
 
         }
 
@@ -178,8 +188,17 @@ namespace TrabajoMatesPrueba
         /// <param name="vs4"></param>
         private void DistanciaPuntoPlano(int[] vs1, int[] vs4)
         {
-            double resultado = Math.Abs((vs1[0] * vs4[0]) + (vs1[1] * vs4[1]) + (vs1[2] * vs4[2]) + vs4[3]) / Math.Sqrt((vs4[0] * vs4[0]) + (vs4[1] * vs4[1]) + (vs4[2] * vs4[2]));
-            Console.WriteLine("La distancia del punto al plano es : " + resultado);
+            double denominador = Math.Sqrt(MathF.Pow(vs4[0], 2) + MathF.Pow(vs4[1], 2) + MathF.Pow(vs4[2], 2));
+
+            //verificar para no dividir entre 0
+            if (denominador == 0)
+                Console.WriteLine("La distancia entre el punto y el plano es infinito");
+            else
+            {
+                double resultado = Math.Abs((vs1[0] * vs4[0]) + (vs1[1] * vs4[1]) + (vs1[2] * vs4[2]) + vs4[3]) / denominador;
+                Console.WriteLine("La distancia del punto al plano es : " + resultado);
+            }
+
         }
 
         /// <summary>
@@ -205,17 +224,30 @@ namespace TrabajoMatesPrueba
             }
         }
 
-        private void DistanciaRectaPlano(int[] vs1, int[] vs2, int[] vs3, ref int[,] matriz)
+
+        /// <summary>
+        /// Método para calcular la distacia entre la recta y el plano
+        /// utilizamos la formula general y no verificamos casos en particulares ya que igual van a dar 0
+        /// </summary>
+        /// <param name="vs1"></param>
+        /// <param name="vs2"></param>
+        private void DistanciaRectaPlano(int[] vs1, int[] vs2)
         {
-            RellenarMatriz(vs1, vs2, vs3, ref matriz);
+            double denominador = Math.Sqrt(MathF.Pow(vs2[0], 2) + MathF.Pow(vs2[1], 2) + MathF.Pow(vs2[2], 2));
 
-            int det = Determinante3x3(matriz);
-
-            if (det == 0)
+            //verificacion para no dividir entre 0
+            if (denominador == 0)
             {
-
+                Console.WriteLine("La distancia de la recta al plano es infinito");
+            }
+            else
+            {
+                double resultado = Math.Abs((vs1[0] * vs2[0]) + (vs1[1] * vs2[1]) + (vs1[2] * vs2[2]) + vs2[3]) / denominador;
+                Console.WriteLine("La distancia de la recta al plano es : " + resultado);
             }
 
+           
+            //Pedir punto de la recta y ecuacion general del plano
 
         }
 
@@ -261,12 +293,10 @@ namespace TrabajoMatesPrueba
             int[] Vector2 = new int[3];
             int[] Vector3 = new int[3];
             int[] Vector4 = new int[4];
-            int[] Vector5 = new int[4];
-            int[] Vector6 = new int[4];
 
+            ImprimirMenu();
+            int opcion = EscogerNumeroMenu();
 
-                ImprimirMenu();
-                int opcion = EscogerNumeroMenu();
             do
             {
                 switch (opcion)
@@ -304,7 +334,7 @@ namespace TrabajoMatesPrueba
                         ProductoMixto(Vector1, Vector2, Vector3);
                         break;
                     #endregion
-                    #region 
+                    #region Producto Vectorial
                     case 4:
                         Console.WriteLine("Vector 1");
                         RellenarVector(ref Vector1);
@@ -315,6 +345,7 @@ namespace TrabajoMatesPrueba
                         ProductoVectorial(Vector1, Vector2);
                         break;
                     #endregion
+                    #region Distancia Punto Recta
                     case 5:
                         Console.WriteLine("Punto 1");
                         RellenarVector(ref Vector1);
@@ -328,7 +359,8 @@ namespace TrabajoMatesPrueba
 
                         DistanciaPuntoRecta(Vector1, Vector2, Vector3);
                         break;
-
+                    #endregion
+                    #region Distancia Punto Plano
                     case 6:
                         Console.WriteLine("Coordenadas del punto");
                         RellenarVector(ref Vector1);
@@ -339,21 +371,20 @@ namespace TrabajoMatesPrueba
 
                         DistanciaPuntoPlano(Vector1, Vector4);
                         break;
-
+                    #endregion
+                    #region Distancia Recta Plano
                     case 7:
-                        Console.WriteLine("Primera parte de la ecuacion general de la recta");
+                        Console.WriteLine("Dame el punto de la recta");
+                        RellenarVector(ref Vector1);
+
+                        Console.WriteLine("Escribe la ecuacion general del plano");
                         RellenarVector(ref Vector4);
-                        Console.WriteLine("Segunda parte de la ecuacion general de la recta ");
-                        RellenarVector(ref Vector5);
 
-                        Console.WriteLine("Coordenadas x,y,z y el termino independiente del plano");
-                        RellenarVector(ref Vector6);
-
-
-
+                        DistanciaRectaPlano(Vector1, Vector4);
                         break;
+                        #endregion
                 }
-                if(opcion != 6)
+                if (opcion != 6)
                 {
                     Console.ReadKey();
                     Console.Clear();
