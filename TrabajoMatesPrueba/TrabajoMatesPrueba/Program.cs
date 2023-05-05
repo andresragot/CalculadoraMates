@@ -259,7 +259,7 @@ namespace TrabajoMatesPrueba
         {
             int opcion;
             Console.WriteLine("Dime la opcion que deseas realizar");
-            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 9)
+            while (!int.TryParse(Console.ReadLine(), out opcion) || opcion < 1 || opcion > 8)
             {
                 Console.WriteLine("Error, debe introducir una opcion valida");
             }
@@ -391,7 +391,7 @@ namespace TrabajoMatesPrueba
                     ImprimirMenu();
                     opcion = EscogerNumeroMenu();
                 }
-            } while (opcion < 9);
+            } while (opcion < 8);
         }
 
         static void Main(string[] args)
